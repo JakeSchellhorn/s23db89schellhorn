@@ -1,0 +1,15 @@
+extends layout
+
+block content
+  h1= title
+  
+  - let results = [{material: "wood", shape: "round", legs: 3 }, {material: "wood", shape: "square", legs: 4 }, {material: "metal", shape: "rectangle", legs: 8 }];
+
+  div(class="container-fluid")
+    div(class="row") 
+      - 
+      each item in results
+        div(class="col-sm-2") 
+          p Material: #{item.material}
+          p Shape: #{item.shape}
+          p Legs: #{item.legs}
