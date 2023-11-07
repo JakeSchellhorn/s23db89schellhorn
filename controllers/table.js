@@ -36,4 +36,17 @@ res.send(`{"error": ${err}}`);
 }
 };
 
+//VIEWS
+// Handle a show all view
+exports.table_view_all_Page = async function(req, res) {
+try{
+theTable = await Table.find();
+res.render('tables', { title: 'Table Search Results', results: theTable });
+}
+catch(err){
+res.status(500);
+res.send(`{"error": ${err}}`);
+}
+};
+
     
