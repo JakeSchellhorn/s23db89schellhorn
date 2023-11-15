@@ -38,10 +38,19 @@ exports.table_create_post = async function(req, res) {
     }
     }
 
-// Handle Table delete form on DELETE.
-exports.table_delete = function(req, res) {
-    res.send('NOT IMPLEMENTED: Table delete DELETE ' + req.params.id);
+// Handle Table delete on DELETE.
+exports.table_delete = async function(req, res) {
+    console.log("delete " + req.params.id)
+    try {
+    result = await Table.findByIdAndDelete( req.params.id)
+    console.log("Removed " + result)
+    res.send(result)
+    } catch (err) {
+    res.status(500)
+    res.send(`{"error": Error deleting ${err}}`);
+    }
     };
+
 // Handle Table update form on PUT.
 exports.table_update_put = function(req, res) {
     res.send('NOT IMPLEMENTED: Table update PUT' + req.params.id);
@@ -72,4 +81,24 @@ res.send(`{"error": ${err}}`);
 }
 };
 
-    
+
+// Handle Costume update form on PUT.
+exports.table_update_put = async function(req, res) {
+console.log(`update on id ${req.params.id} with body
+${JSON.stringify(req.body)}`)
+try {
+let toUpdate = await Table.findById( req.params.id)
+// Do updates of properties
+if(req.body.material)
+toUpdate.material = req.body.material;
+if(req.body.shape) toUpdate.shape = req.body.shape;
+if(req.body.numlegs) toUpdate.numlegs = req.body.numlegs;
+let result = await toUpdate.save();
+console.log("Sucess " + result)
+res.send(result)
+} catch (err) {
+res.status(500)
+res.send(`{"error": ${err}: Update for id ${req.params.id}
+failed`);
+}
+};    
